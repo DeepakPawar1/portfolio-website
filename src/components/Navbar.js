@@ -1,11 +1,28 @@
 import './NavbarStyles.css';
 import {Link} from "react-router-dom";
 import {FaBars,FaTimes} from 'react-icons/fa'; 
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 function Navbar (){
 
 
     const [clicked,setClicked] = useState(false);
+    const [color, setColor] = useState(false);
+    const changeColor = () =>{
+        if(window.scrollY >= 100){
+            setColor(true);
+        }else{
+            setColor(false);
+        }
+    }
+    useEffect(()=>{
+        // console.log("in navbar useeffect")
+        window.addEventListener("scroll",changeColor)
+        return () =>{
+            // console.log("removed");
+            window.removeEventListener("scroll",changeColor)
+        }
+    },[])
+    // window.addEventListener("scroll",changeColor);
     const handleClick=()=>{
       setClicked((current)=>{
           return !current
@@ -13,7 +30,7 @@ function Navbar (){
     }
 
     return (
-        <div className="header">
+        <div className={color ? "header header-bg" : "header"}>
             <Link to="/">
             <h1>Portfolio</h1>
             </Link>
